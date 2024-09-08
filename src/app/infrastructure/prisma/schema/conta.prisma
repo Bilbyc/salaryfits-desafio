@@ -1,7 +1,7 @@
 model Conta {
   id Int @id @default(autoincrement())
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
   nome String
   email String
   senha String

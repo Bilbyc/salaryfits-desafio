@@ -2,7 +2,7 @@ import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { CreateContaDto } from '../../../domain/conta/dtos/create-conta.dto';
 import { Response } from 'express';
 
-@Controller('conta')
+@Controller('api/conta')
 export class ContaController {
   @Post()
   async createConta(
