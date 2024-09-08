@@ -8,11 +8,11 @@ export class CreateContaDto {
   @IsNotEmpty()
   @IsEmail()
   @IsString()
-  email: string;
+  readonly email: string;
   @IsNotEmpty()
   @IsString()
-  senha: string;
+  readonly senha: string;
   @IsNotEmpty()
   @IsEnum(Role)
-  papel: Role;
+  readonly papel: Role;
 }

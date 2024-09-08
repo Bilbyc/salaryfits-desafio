@@ -5,6 +5,7 @@ model Conta {
   nome String
   email String
   senha String
+  saldo Decimal @db.Decimal(9,2) @default(0.00)
   papel Role
 }
 

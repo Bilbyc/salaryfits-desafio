@@ -3,6 +3,7 @@ export class Conta {
   nome: string;
   email: string;
   senha: string;
+  saldo: number;
   papel: Role;
 }
 
