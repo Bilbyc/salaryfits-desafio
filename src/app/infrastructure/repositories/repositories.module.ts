@@ -11,5 +11,6 @@ import { ContaRepository } from './conta.repository';
       useClass: ContaRepository,
     },
   ],
+  exports: [IContaRepository],
 })
 export class RepositoriesModule {}
