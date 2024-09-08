@@ -1,6 +1,7 @@
 export class Transacao {
   id: number;
   valor: number;
+  destinatario_id: number;
   tipoOperacao: TipoOperacao;
   dataTransacao: Date;
   status: StatusTransacao;

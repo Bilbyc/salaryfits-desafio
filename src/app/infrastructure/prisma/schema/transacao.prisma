@@ -2,6 +2,7 @@ model Transacao {
   id Int @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  destinatario_id Int
   valor Decimal @db.Decimal(9,2)
   tipoOperacao TipoOperacao
   dataTransacao DateTime @default(now())
