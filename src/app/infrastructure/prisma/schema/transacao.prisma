@@ -1,0 +1,20 @@
+model Transacao {
+  id Int @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  valor Decimal @db.Decimal(9,2)
+  tipoOperacao TipoOperacao
+  dataTransacao DateTime @default(now())
+  status StatusTransacao
+}
+
+enum TipoOperacao {
+  DEPOSITO
+  SAQUE
+  TRANSFERENCIA
+}
+
+enum StatusTransacao {
+  ACEITA
+  RECUSADA
+}
