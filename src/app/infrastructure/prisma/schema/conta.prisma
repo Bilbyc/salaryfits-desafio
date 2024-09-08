@@ -1,0 +1,14 @@
+model Conta {
+  id Int @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  nome String
+  email String
+  senha String
+  papel Role
+}
+
+enum Role {
+  USUARIO
+  ADMIN
+}
