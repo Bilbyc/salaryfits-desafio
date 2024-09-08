@@ -10,7 +10,11 @@ export class ContaRepository implements IContaRepository {
   constructor(private prisma: PrismaService) {}
   async create(data: CreateContaDto): Promise<Conta> {
     const conta = await this.prisma.conta.create({ data });
+    const contaTransformada = {
+      ...conta,
+      saldo: conta.saldo.toNumber(),
+    };
 
-    return plainToClass(Conta, conta);
+    return plainToClass(Conta, contaTransformada);
   }
 }
