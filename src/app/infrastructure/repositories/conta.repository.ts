@@ -17,4 +17,15 @@ export class ContaRepository implements IContaRepository {
 
     return plainToClass(Conta, contaTransformada);
   }
+
+  async findOne(email: string): Promise<Conta> {
+    const conta = await this.prisma.conta.findUnique({
+      where: { email: email },
+    });
+    const contaTransformada = {
+      ...conta,
+      saldo: conta.saldo.toNumber(),
+    };
+    return plainToClass(Conta, contaTransformada);
+  }
 }

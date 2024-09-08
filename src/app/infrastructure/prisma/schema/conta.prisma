@@ -3,7 +3,7 @@ model Conta {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   nome String
-  email String
+  email String @unique
   senha String
   saldo Decimal @db.Decimal(9,2) @default(0.00)
   papel Role
