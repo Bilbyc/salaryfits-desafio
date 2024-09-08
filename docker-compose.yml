@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:12.4
+    container_name: postgres-salaryfits
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=$POSTGRESDB_USER
+      - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+    ports:
+      - "5434:5432"
+    volumes:
+      - /var/lib/postgresql/data
+
