@@ -1,11 +1,20 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { TransacaoService } from '../../../services/transacao.service';
 import { Response } from 'express';
 import { CreateTransferenciaDto } from '../../../domain/transacao/dtos/create-transferencia.dto';
+import { AuthGuard } from '../../adapters/auth/auth.guard';
 
 @Controller('api/transacao')
 export class TransacaoController {
   constructor(private transacaoService: TransacaoService) {}
+  @UseGuards(AuthGuard)
   @Post('/transferir')
   async transferirSaldo(
     @Body() transferenciaDto: CreateTransferenciaDto,
