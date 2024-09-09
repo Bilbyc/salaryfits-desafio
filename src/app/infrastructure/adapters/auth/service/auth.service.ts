@@ -1,11 +1,13 @@
-import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from '../../../../domain/conta/dtos/login.dto';
 import { IContaRepository } from '../../../../domain/conta/repositories/iconta.repository';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(IContaRepository) private contaRepository: IContaRepository
+    @Inject(IContaRepository) private contaRepository: IContaRepository,
+    private jwtService: JwtService,
   ) {}
 
   async logar(payload: LoginDto): Promise<any> {
@@ -18,7 +20,8 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { senha, ...result } = conta;
-    return result;
+    return {
+      acess_token: await this.jwtService.signAsync(payload),
+    };
   }
 }
