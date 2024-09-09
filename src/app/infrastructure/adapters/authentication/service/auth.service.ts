@@ -19,7 +19,7 @@ export class AuthService {
     if (conta.senha !== payload.senha) {
       throw new UnauthorizedException();
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    payload['papel'] = conta.papel;
     return {
       acess_token: await this.jwtService.signAsync(payload),
     };
