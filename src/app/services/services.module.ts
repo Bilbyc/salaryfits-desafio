@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { RepositoriesModule } from '../infrastructure/repositories/repositories.module';
 import { ContaService } from './conta.service';
 import { TransacaoService } from './transacao.service';
-import { AuthService } from '../infrastructure/adapters/auth/service/auth.service';
+import { AuthService } from '../infrastructure/adapters/authentication/service/auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from '../infrastructure/adapters/auth/constants';
+import { jwtConstants } from '../infrastructure/adapters/authentication/constants';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from '../infrastructure/adapters/authentication/auth.guard';
 
 @Module({
   imports: [
@@ -15,7 +17,15 @@ import { jwtConstants } from '../infrastructure/adapters/auth/constants';
       signOptions: { expiresIn: '180s' },
     }),
   ],
-  providers: [ContaService, TransacaoService, AuthService],
+  providers: [
+    ContaService,
+    TransacaoService,
+    AuthService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
   exports: [ContaService, TransacaoService, AuthService],
 })
 export class ServicesModule {}
