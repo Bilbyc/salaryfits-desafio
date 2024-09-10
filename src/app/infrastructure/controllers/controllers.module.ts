@@ -5,6 +5,7 @@ import { TransacaoController } from './transacao/transacao.controller';
 import { AuthController } from '../adapters/authentication/controller/auth.controller';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from '../adapters/authorization/roles.guard';
+import { ThrottlerGuard } from "@nestjs/throttler";
 
 @Module({
   imports: [ServicesModule],
@@ -13,6 +14,10 @@ import { RolesGuard } from '../adapters/authorization/roles.guard';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })

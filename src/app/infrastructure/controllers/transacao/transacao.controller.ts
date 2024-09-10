@@ -6,11 +6,13 @@ import { CreateMovimentacaoDto } from '../../../domain/transacao/dtos/create-mov
 import { RelatorioFiltroDto } from '../../../domain/transacao/dtos/relatorio-filtro.dto';
 import { Roles } from '../../adapters/authorization/role.decorator';
 import { Role } from '../../../domain/conta/conta';
-import { RelatorioFiltroUserDto } from "../../../domain/transacao/dtos/relatorio-filtro-user.dto";
+import { RelatorioFiltroUserDto } from '../../../domain/transacao/dtos/relatorio-filtro-user.dto';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 
 @Controller('api/transacao')
 export class TransacaoController {
   constructor(private transacaoService: TransacaoService) {}
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Post('/transferir')
   async transferirSaldo(
     @Body() transferenciaDto: CreateTransferenciaDto,
@@ -24,6 +26,7 @@ export class TransacaoController {
     );
     res.status(HttpStatus.OK).send(transacao);
   }
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Post('/depositar')
   async depositarSaldo(
     @Body() valor: CreateMovimentacaoDto,
@@ -36,6 +39,7 @@ export class TransacaoController {
     res.status(HttpStatus.OK).send(conta);
   }
 
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @Post('/sacar')
   async sacarSaldo(
     @Body() valor: CreateMovimentacaoDto,
@@ -49,6 +53,7 @@ export class TransacaoController {
     res.status(HttpStatus.OK).send(conta);
   }
 
+  @SkipThrottle()
   @Roles(Role.Admin)
   @Get('/listAllTransacoes')
   async listAllTransacoes(
@@ -65,6 +70,7 @@ export class TransacaoController {
     }
   }
 
+  @SkipThrottle()
   @Get('/listTransacoes')
   async listTransacoes(
     @Req() req: Request,

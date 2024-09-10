@@ -1,11 +1,13 @@
 import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Res } from "@nestjs/common";
-import { CreateContaDto } from "../../../domain/conta/dtos/create-conta.dto";
-import { Response } from "express";
-import { ContaService } from "../../../services/conta.service";
-import { Roles } from "../../adapters/authorization/role.decorator";
-import { Role } from "../../../domain/conta/conta";
-import { ResponseSaldoContaDto } from "../../../domain/conta/dtos/response-saldo-conta.dto";
+import { CreateContaDto } from '../../../domain/conta/dtos/create-conta.dto';
+import { Response } from 'express';
+import { ContaService } from '../../../services/conta.service';
+import { Roles } from '../../adapters/authorization/role.decorator';
+import { Role } from '../../../domain/conta/conta';
+import { ResponseSaldoContaDto } from '../../../domain/conta/dtos/response-saldo-conta.dto';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle()
 @Controller('api/conta')
 export class ContaController {
   constructor(private contaService: ContaService) {}

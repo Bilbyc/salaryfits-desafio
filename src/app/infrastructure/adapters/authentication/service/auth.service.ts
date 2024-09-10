@@ -1,4 +1,9 @@
-import { BadRequestException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { LoginDto } from '../../../../domain/conta/dtos/login.dto';
 import { IContaRepository } from '../../../../domain/conta/repositories/iconta.repository';
 import { JwtService } from '@nestjs/jwt';

@@ -3,7 +3,9 @@ import { AuthService } from '../service/auth.service';
 import { LoginDto } from '../../../../domain/conta/dtos/login.dto';
 import { Response } from 'express';
 import { Public } from '../public.decorator';
+import { SkipThrottle } from '@nestjs/throttler';
 
+@SkipThrottle()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

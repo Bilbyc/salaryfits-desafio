@@ -10,7 +10,7 @@ import { CreateTransacaoDto } from '../../domain/transacao/dtos/create-transacao
 import { IHistoricoTransacaoRepository } from '../../domain/historicoTransacao/repositories/ihistorico-transacao.repository';
 import { CreateHistoricoTransacaoDto } from '../../domain/historicoTransacao/dtos/create-historico-transacao.dto';
 import { RelatorioFiltroDto } from '../../domain/transacao/dtos/relatorio-filtro.dto';
-import { RelatorioFiltroUserDto } from "../../domain/transacao/dtos/relatorio-filtro-user.dto";
+import { RelatorioFiltroUserDto } from '../../domain/transacao/dtos/relatorio-filtro-user.dto';
 
 @Injectable()
 export class TransacaoRepository implements ITransacaoRepository {
