@@ -257,7 +257,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:{{PORT}}/api/transacao/listTransacoes?dataInicial=2024-09-10&dataFinal=2024-09-10&tipoOperacao=DEPOSITO",
+					"raw": "localhost:{{PORT}}/api/transacao/listAllTransacoes?dataInicial=2024-09-10&dataFinal=2024-09-10&tipoOperacao=DEPOSITO",
 					"host": [
 						"localhost"
 					],
@@ -265,7 +265,7 @@
 					"path": [
 						"api",
 						"transacao",
-						"listTransacoes"
+						"listAllTransacoes"
 					],
 					"query": [
 						{
