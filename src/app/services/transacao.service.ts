@@ -14,7 +14,7 @@ import {
 import { IContaRepository } from '../domain/conta/repositories/iconta.repository';
 import { Conta } from '../domain/conta/conta';
 import { CreateTransacaoDto } from '../domain/transacao/dtos/create-transacao.dto';
-import { CreateDepositoDto } from '../domain/transacao/dtos/create-deposito.dto';
+import { CreateMovimentacaoDto } from '../domain/transacao/dtos/create-movimentacao.dto';
 import { ResponseContaDto } from '../domain/conta/dtos/response-conta.dto';
 import { plainToInstance } from 'class-transformer';
 
@@ -46,7 +46,7 @@ export class TransacaoService {
     return await this.transacaoRepository.transferir(payload, contaOrigem);
   }
   async depositar(
-    payload: CreateDepositoDto,
+    payload: CreateMovimentacaoDto,
     contaEmail: string,
   ): Promise<ResponseContaDto> {
     await this.contaRepository.depositarByEmail(contaEmail, payload.valor);
@@ -61,6 +61,33 @@ export class TransacaoService {
     };
 
     await this.transacaoRepository.create(data);
+
+    return plainToInstance(ResponseContaDto, contaOrigem);
+  }
+
+  async sacarValor(
+    payload: CreateMovimentacaoDto,
+    contaEmail: string,
+  ): Promise<ResponseContaDto> {
+    let contaOrigem = await this.contaRepository.findOneByEmail(contaEmail);
+
+    if (contaOrigem.saldo - payload.valor < 0) {
+      throw new BadRequestException(
+        'Não há saldo suficiente para a operação solicitada',
+      );
+    }
+    await this.contaRepository.sacarByEmail(contaEmail, payload.valor);
+
+    const data: CreateTransacaoDto = {
+      contaId: contaOrigem.id,
+      valor: payload.valor,
+      tipoOperacao: TipoOperacao.saque,
+      status: StatusTransacao.aceita,
+    };
+
+    await this.transacaoRepository.create(data);
+
+    contaOrigem = await this.contaRepository.findOneByEmail(contaEmail);
 
     return plainToInstance(ResponseContaDto, contaOrigem);
   }
