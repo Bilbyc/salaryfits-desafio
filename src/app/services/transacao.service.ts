@@ -16,7 +16,11 @@ import { Conta } from '../domain/conta/conta';
 import { CreateTransacaoDto } from '../domain/transacao/dtos/create-transacao.dto';
 import { CreateMovimentacaoDto } from '../domain/transacao/dtos/create-movimentacao.dto';
 import { ResponseContaDto } from '../domain/conta/dtos/response-conta.dto';
-import { plainToInstance } from 'class-transformer';
+import { plainToInstance } from "class-transformer";
+import {
+  IHistoricoTransacaoRepository
+} from "../domain/historicoTransacao/repositories/ihistorico-transacao.repository";
+import { CreateHistoricoTransacaoDto } from "../domain/historicoTransacao/dtos/create-historico-transacao.dto";
 
 @Injectable()
 export class TransacaoService {
@@ -25,6 +29,8 @@ export class TransacaoService {
     private transacaoRepository: ITransacaoRepository,
     @Inject(IContaRepository)
     private contaRepository: IContaRepository,
+    @Inject(IHistoricoTransacaoRepository)
+    private historicoTransacaoRepository: IHistoricoTransacaoRepository,
   ) {}
   async createTransferencia(
     payload: CreateTransferenciaDto,
@@ -60,7 +66,16 @@ export class TransacaoService {
       status: StatusTransacao.aceita,
     };
 
-    await this.transacaoRepository.create(data);
+    const transacao = await this.transacaoRepository.create(data);
+
+    const dataHistorico: CreateHistoricoTransacaoDto = {
+      contaId: contaOrigem.id,
+      transacaoId: transacao.id,
+      tipoOperacao: TipoOperacao.deposito,
+      dataTransacao: new Date(),
+    };
+
+    await this.historicoTransacaoRepository.create(dataHistorico);
 
     return plainToInstance(ResponseContaDto, contaOrigem);
   }
