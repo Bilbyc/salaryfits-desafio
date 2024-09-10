@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "e42da1d3-708d-4d9b-8fc1-94c114216933",
+		"name": "SalaryFits - Desafio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34292562"
+	},
+	"item": [
+		{
+			"name": "Criar Conta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"nome\": \"Testeman5\",\n   \"email\": \"teste3@email.com\",\n   \"senha\": \"senha\",\n   \"papel\": \"USUARIO\" \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:{{PORT}}/api/conta/criar",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"conta",
+						"criar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"carlos@email.com\",\n    \"senha\": \"senha\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:{{PORT}}/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transferir",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlM0BlbWFpbC5jb20iLCJzZW5oYSI6InNlbmhhIiwicGFwZWwiOiJVU1VBUklPIiwiaWF0IjoxNzI2MDAwMDM5LCJleHAiOjE3MjYwMDAzOTl9.dnIurNKwoDVoBIRvkvfRde2LLzBNX6rcfb-z-qhnpvQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destinatario_id\": 1,\n    \"valor\": 5.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:{{PORT}}/api/transacao/transferir",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"transacao",
+						"transferir"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Depositar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlM0BlbWFpbC5jb20iLCJzZW5oYSI6InNlbmhhIiwicGFwZWwiOiJVU1VBUklPIiwiaWF0IjoxNzI2MDAwMDM5LCJleHAiOjE3MjYwMDAzOTl9.dnIurNKwoDVoBIRvkvfRde2LLzBNX6rcfb-z-qhnpvQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"valor\": 50.44\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:{{PORT}}/api/transacao/depositar",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"transacao",
+						"depositar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sacar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlM0BlbWFpbC5jb20iLCJzZW5oYSI6InNlbmhhIiwicGFwZWwiOiJVU1VBUklPIiwiaWF0IjoxNzI2MDAwMDM5LCJleHAiOjE3MjYwMDAzOTl9.dnIurNKwoDVoBIRvkvfRde2LLzBNX6rcfb-z-qhnpvQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"valor\":5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:{{PORT}}/api/transacao/sacar",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"transacao",
+						"sacar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar contas - ADMIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcmxvc0BlbWFpbC5jb20iLCJzZW5oYSI6InNlbmhhIiwicGFwZWwiOiJBRE1JTiIsImlhdCI6MTcyNjAwMDM1MCwiZXhwIjoxNzI2MDAwNzEwfQ.w9UBUwJEQO4A81m0VGvKYOTnGREOZV-q5ukwWJNqjJE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:{{PORT}}/api/conta/listar",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"conta",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ativar/Desativa Conta - ADMIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcmxvc0BlbWFpbC5jb20iLCJzZW5oYSI6InNlbmhhIiwicGFwZWwiOiJBRE1JTiIsImlhdCI6MTcyNjAwMDM1MCwiZXhwIjoxNzI2MDAwNzEwfQ.w9UBUwJEQO4A81m0VGvKYOTnGREOZV-q5ukwWJNqjJE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:{{PORT}}/api/conta/atualizaAtivacao/30",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"conta",
+						"atualizaAtivacao",
+						"30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista Transações - ADMIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJpYmlAZW1haWwuY29tIiwic2VuaGEiOiJzZW5oYSIsInBhcGVsIjoiQURNSU4iLCJpYXQiOjE3MjU5OTY5NTIsImV4cCI6MTcyNTk5NzMxMn0.zKeyp3883z2IYSKJ0S31KjIXh8EPlOh7U6jPpcVOQQM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:{{PORT}}/api/transacao/listTransacoes?dataInicial=2024-09-10&dataFinal=2024-09-10&tipoOperacao=DEPOSITO",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"transacao",
+						"listTransacoes"
+					],
+					"query": [
+						{
+							"key": "dataInicial",
+							"value": "2024-09-10"
+						},
+						{
+							"key": "dataFinal",
+							"value": "2024-09-10"
+						},
+						{
+							"key": "tipoOperacao",
+							"value": "DEPOSITO"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Transacoes Usuario",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJpYmlAZW1haWwuY29tIiwic2VuaGEiOiJzZW5oYSIsInBhcGVsIjoiQURNSU4iLCJpYXQiOjE3MjU5OTY2OTcsImV4cCI6MTcyNTk5NzA1N30.3dKrPPesU4WKDFOiBTNZn6gbOtDgP3NYklK3XXrSWrI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:{{PORT}}/api/transacao/listTransacoes?dataInicial=2024-09-09&dataFinal=2024-09-09",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"api",
+						"transacao",
+						"listTransacoes"
+					],
+					"query": [
+						{
+							"key": "dataInicial",
+							"value": "2024-09-09"
+						},
+						{
+							"key": "dataFinal",
+							"value": "2024-09-09"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "PORT",
+			"value": "3001",
+			"type": "string"
+		},
+		{
+			"key": "ContaId",
+			"value": "5"
+		}
+	]
+}
