@@ -8,10 +8,29 @@ $ cd salaryfits-desafio-main
 
 # Install dependencies
 $ npm install
+```
+### Set up Database and Port infos (.env)
+Crie um arquivo **.env** na pasta raiz do projeto e preencha as variáveis de ambiente abaixo. (Dentro do projeto existe um .env.example para referência)
+```
+# App config
+PORT = 3001
+
+# Database config
+DATABASE_URL="postgresql://postgres:postgres@localhost:5434/salaryfits?schema=public"
+POSTGRESDB_USER="postgres"
+POSTGRESDB_ROOT_PASSWORD="postgres"
 
 # Run docker
 $ docker compose up
 
+```
+## Database Scripts
+```bash
+# Gerar banco
+$ npx prisma db push
+
+# Executar migrations
+$ npx prisma migrate dev
 ```
 ## Running the app
 
@@ -31,6 +50,9 @@ $ Token de Autenticação tem uma duração de 5 minutos
 
 # Rate Limit
 $ Rotas de operações de Transação (Saque, Depósito e Transferencia) possuem um limite de 5 requisições por minuto
+
+# Documentação
+$ Na pasta raiz do projeto existe um arquivo SalaryFits - Desafio.postman_collection.json - que pode ser importado via Postman para melhor acesso aos endpoints da aplicação
 ```
 📌 Endpoints
 ============
