@@ -5,6 +5,7 @@ import { IContaRepository } from '../domain/conta/repositories/iconta.repository
 import { ResponseContaDto } from '../domain/conta/dtos/response-conta.dto';
 import { plainToInstance } from 'class-transformer';
 import { ResponseAtivacaoContaDto } from '../domain/conta/dtos/update-ativacao-conta.dto';
+import { ResponseSaldoContaDto } from "../domain/conta/dtos/response-saldo-conta.dto";
 
 @Injectable()
 export class ContaService {
@@ -41,5 +42,26 @@ export class ContaService {
       idToNumber,
       conta.ativada,
     );
+  }
+
+  async getSaldo(id: string): Promise<ResponseSaldoContaDto> {
+    const idToNumber = Number(id);
+    if (isNaN(idToNumber)) {
+      throw new BadRequestException('Id recebido deve ser um número');
+    }
+
+    const conta = await this.contaRepository.findOne(idToNumber);
+
+    if (!conta) {
+      throw new BadRequestException(
+        'Id informado não corresponde a nenhuma conta',
+      );
+    }
+
+    return {
+      nome: conta.nome,
+      email: conta.email,
+      saldo: conta.saldo,
+    };
   }
 }

@@ -1,18 +1,10 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-  Res,
-} from '@nestjs/common';
-import { CreateContaDto } from '../../../domain/conta/dtos/create-conta.dto';
-import { Response } from 'express';
-import { ContaService } from '../../../services/conta.service';
-import { Roles } from '../../adapters/authorization/role.decorator';
-import { Role } from '../../../domain/conta/conta';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Res } from "@nestjs/common";
+import { CreateContaDto } from "../../../domain/conta/dtos/create-conta.dto";
+import { Response } from "express";
+import { ContaService } from "../../../services/conta.service";
+import { Roles } from "../../adapters/authorization/role.decorator";
+import { Role } from "../../../domain/conta/conta";
+import { ResponseSaldoContaDto } from "../../../domain/conta/dtos/response-saldo-conta.dto";
 
 @Controller('api/conta')
 export class ContaController {
@@ -46,5 +38,16 @@ export class ContaController {
       .send(
         `Conta - ID: ${result.id} atualizada para status: Ativada = ${result.ativada}`,
       );
+  }
+
+  @Roles(Role.Admin)
+  @Get('/checaSaldo/:id')
+  async getSaldoConta(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    const result: ResponseSaldoContaDto = await this.contaService.getSaldo(id);
+
+    res.status(HttpStatus.OK).send(result);
   }
 }
