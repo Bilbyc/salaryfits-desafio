@@ -13,6 +13,10 @@ import {
 } from '../domain/transacao/transacao';
 import { IContaRepository } from '../domain/conta/repositories/iconta.repository';
 import { Conta } from '../domain/conta/conta';
+import { CreateTransacaoDto } from '../domain/transacao/dtos/create-transacao.dto';
+import { CreateDepositoDto } from '../domain/transacao/dtos/create-deposito.dto';
+import { ResponseContaDto } from '../domain/conta/dtos/response-conta.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class TransacaoService {
@@ -40,5 +44,24 @@ export class TransacaoService {
       throw new BadRequestException('Sem saldo suficiente');
     }
     return await this.transacaoRepository.transferir(payload, contaOrigem);
+  }
+  async depositar(
+    payload: CreateDepositoDto,
+    contaEmail: string,
+  ): Promise<ResponseContaDto> {
+    await this.contaRepository.depositarByEmail(contaEmail, payload.valor);
+
+    const contaOrigem = await this.contaRepository.findOneByEmail(contaEmail);
+
+    const data: CreateTransacaoDto = {
+      contaId: contaOrigem.id,
+      valor: payload.valor,
+      tipoOperacao: TipoOperacao.deposito,
+      status: StatusTransacao.aceita,
+    };
+
+    await this.transacaoRepository.create(data);
+
+    return plainToInstance(ResponseContaDto, contaOrigem);
   }
 }
