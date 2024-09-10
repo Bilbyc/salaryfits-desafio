@@ -3,7 +3,7 @@ import { IContaRepository } from '../../domain/conta/repositories/iconta.reposit
 import { CreateContaDto } from '../../domain/conta/dtos/create-conta.dto';
 import { Conta } from '../../domain/conta/conta';
 import { PrismaService } from '../prisma/prisma.service';
-import { plainToClass } from 'class-transformer';
+import { plainToClass, plainToInstance } from 'class-transformer';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -52,7 +52,7 @@ export class ContaRepository implements IContaRepository {
       },
       data: {
         saldo: {
-          increment: valor,
+          increment: new Prisma.Decimal(valor),
         },
       },
     });
@@ -80,7 +80,7 @@ export class ContaRepository implements IContaRepository {
       },
       data: {
         saldo: {
-          decrement: valor,
+          decrement: new Prisma.Decimal(valor),
         },
       },
     });
@@ -95,11 +95,19 @@ export class ContaRepository implements IContaRepository {
       },
       data: {
         saldo: {
-          decrement: valor,
+          decrement: new Prisma.Decimal(valor),
         },
       },
     });
 
     return true;
+  }
+
+  async listContasAtivas(): Promise<Conta[]> {
+    const contasAtivas = await this.prisma.conta.findMany();
+
+    return contasAtivas.map((conta) =>
+      plainToInstance(Conta, { ...conta, saldo: conta.saldo.toNumber() }),
+    );
   }
 }

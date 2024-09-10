@@ -9,6 +9,7 @@ export interface IContaRepository {
   depositarByEmail(email: string, valor: number): Promise<boolean>;
   sacarById(id: number, valor: number): Promise<boolean>;
   sacarByEmail(email: string, valor: number): Promise<boolean>;
+  listContasAtivas(): Promise<Conta[]>;
 }
 
 export const IContaRepository = Symbol('IContaRepository');
