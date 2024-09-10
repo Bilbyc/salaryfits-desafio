@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
-export class CreateDepositoDto {
+export class CreateMovimentacaoDto {
   @IsNotEmpty()
   @IsNumber()
   readonly valor: number;
