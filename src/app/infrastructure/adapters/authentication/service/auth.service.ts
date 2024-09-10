@@ -18,6 +18,9 @@ export class AuthService {
     if (conta.senha !== payload.senha) {
       throw new UnauthorizedException();
     }
+    if (!conta.ativada) {
+      throw new BadRequestException('Conta desativada - Não é possível logar');
+    }
     payload['papel'] = conta.papel;
     return {
       acess_token: await this.jwtService.signAsync(payload),
