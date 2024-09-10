@@ -20,6 +20,7 @@ import { plainToInstance } from 'class-transformer';
 import { IHistoricoTransacaoRepository } from '../domain/historicoTransacao/repositories/ihistorico-transacao.repository';
 import { CreateHistoricoTransacaoDto } from '../domain/historicoTransacao/dtos/create-historico-transacao.dto';
 import { RelatorioFiltroDto } from '../domain/transacao/dtos/relatorio-filtro.dto';
+import { RelatorioFiltroUserDto } from '../domain/transacao/dtos/relatorio-filtro-user.dto';
 
 @Injectable()
 export class TransacaoService {
@@ -115,9 +116,14 @@ export class TransacaoService {
     return plainToInstance(ResponseContaDto, contaOrigem);
   }
 
-  async listaTransacoes(params: RelatorioFiltroDto): Promise<any> {
-    //const data = new RelatorioFiltroDto(dataInicial, dataFinal, tipoOperacao);
-
+  async listaTransacoes(params: RelatorioFiltroDto): Promise<Transacao[]> {
     return this.transacaoRepository.list(params);
+  }
+
+  async listaTransacoesConta(
+    params: RelatorioFiltroUserDto,
+    email: string,
+  ): Promise<Transacao[]> {
+    return this.transacaoRepository.listByContaEmail(params, email);
   }
 }

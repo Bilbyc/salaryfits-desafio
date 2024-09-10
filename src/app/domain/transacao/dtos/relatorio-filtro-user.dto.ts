@@ -1,8 +1,7 @@
+import { IsDate, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { IsDate, IsEnum, IsOptional } from 'class-validator';
-import { TipoOperacao } from '../transacao';
 
-export class RelatorioFiltroDto {
+export class RelatorioFiltroUserDto {
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
@@ -12,8 +11,4 @@ export class RelatorioFiltroDto {
   @Transform(({ value }) => new Date(value))
   @IsDate()
   dataFinal?: Date;
-
-  @IsOptional()
-  @IsEnum(TipoOperacao)
-  tipoOperacao?: TipoOperacao;
 }

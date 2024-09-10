@@ -10,6 +10,7 @@ import { CreateTransacaoDto } from '../../domain/transacao/dtos/create-transacao
 import { IHistoricoTransacaoRepository } from '../../domain/historicoTransacao/repositories/ihistorico-transacao.repository';
 import { CreateHistoricoTransacaoDto } from '../../domain/historicoTransacao/dtos/create-historico-transacao.dto';
 import { RelatorioFiltroDto } from '../../domain/transacao/dtos/relatorio-filtro.dto';
+import { RelatorioFiltroUserDto } from "../../domain/transacao/dtos/relatorio-filtro-user.dto";
 
 @Injectable()
 export class TransacaoRepository implements ITransacaoRepository {
@@ -70,6 +71,27 @@ export class TransacaoRepository implements ITransacaoRepository {
         ...(data.dataInicial ? { dataTransacao: { gte: new Date(data.dataInicial) } } : {}),
         ...(data.dataFinal ? { dataTransacao: { lte: new Date(data.dataFinal) } } : {}),
         ...(data.tipoOperacao ? { tipoOperacao: data.tipoOperacao } : {}),
+      },
+    });
+
+    return transacoes.map((transacao) =>
+      plainToInstance(Transacao, {
+        ...transacao,
+        valor: transacao.valor.toNumber(),
+      }),
+    );
+  }
+
+  async listByContaEmail(
+    data: RelatorioFiltroUserDto,
+    email: string,
+  ): Promise<Transacao[]> {
+    const conta = await this.contaRepository.findOneByEmail(email);
+    const transacoes = await this.prisma.transacao.findMany({
+      where: {
+        contaId: conta.id,
+        ...(data.dataInicial ? { dataTransacao: { gte: new Date(data.dataInicial) } } : {}),
+        ...(data.dataFinal ? { dataTransacao: { lte: new Date(data.dataFinal) } } : {}),
       },
     });
 

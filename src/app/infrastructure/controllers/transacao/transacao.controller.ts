@@ -6,6 +6,7 @@ import { CreateMovimentacaoDto } from '../../../domain/transacao/dtos/create-mov
 import { RelatorioFiltroDto } from '../../../domain/transacao/dtos/relatorio-filtro.dto';
 import { Roles } from '../../adapters/authorization/role.decorator';
 import { Role } from '../../../domain/conta/conta';
+import { RelatorioFiltroUserDto } from "../../../domain/transacao/dtos/relatorio-filtro-user.dto";
 
 @Controller('api/transacao')
 export class TransacaoController {
@@ -49,14 +50,32 @@ export class TransacaoController {
   }
 
   @Roles(Role.Admin)
-  @Get('/listaTransacoes')
-  async listaTransacoes(
+  @Get('/listAllTransacoes')
+  async listAllTransacoes(
     @Res() res: Response,
     @Query() params?: RelatorioFiltroDto,
   ): Promise<void> {
     try {
       const result = await this.transacaoService.listaTransacoes(params);
 
+      res.status(HttpStatus.OK).send(result);
+    } catch (error) {
+      console.error('Erro duranta listagem de Transações: ', error.message);
+      throw new HttpException(error.message, error.status).message;
+    }
+  }
+
+  @Get('/listTransacoes')
+  async listTransacoes(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Query() params?: RelatorioFiltroUserDto,
+  ): Promise<void> {
+    try {
+      const result = await this.transacaoService.listaTransacoesConta(
+        params,
+        req['conta'].email,
+      );
       res.status(HttpStatus.OK).send(result);
     } catch (error) {
       console.error('Erro duranta listagem de Transações: ', error.message);
