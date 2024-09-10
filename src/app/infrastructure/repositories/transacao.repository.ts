@@ -27,6 +27,7 @@ export class TransacaoRepository implements ITransacaoRepository {
     };
 
     await this.contaRepository.sacarById(conta.id, payload.valor);
+
     await this.contaRepository.depositarById(
       payload.destinatario_id,
       payload.valor,
@@ -35,9 +36,13 @@ export class TransacaoRepository implements ITransacaoRepository {
     return plainToClass(Transacao, transacaoComSaldoConvertido);
   }
 
-  async create(data: CreateTransacaoDto): Promise<boolean> {
-    await this.prisma.transacao.create({ data });
+  async create(data: CreateTransacaoDto): Promise<Transacao> {
+    const transacao = await this.prisma.transacao.create({ data });
+    const transacaoComSaldoConvertido = {
+      ...transacao,
+      valor: transacao.valor.toNumber(),
+    };
 
-    return true;
+    return plainToClass(Transacao, transacaoComSaldoConvertido);
   }
 }

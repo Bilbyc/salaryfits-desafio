@@ -5,7 +5,7 @@ import { CreateTransacaoDto } from '../dtos/create-transacao.dto';
 
 export interface ITransacaoRepository {
   transferir(payload: CreateTransferenciaDto, conta: Conta): Promise<Transacao>;
-  create(data: CreateTransacaoDto): Promise<boolean>;
+  create(data: CreateTransacaoDto): Promise<Transacao>;
 }
 
 export const ITransacaoRepository = Symbol('ITransacaoRepository');
