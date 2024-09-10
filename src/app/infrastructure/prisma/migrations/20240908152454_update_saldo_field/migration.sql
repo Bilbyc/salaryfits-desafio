@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Conta" ADD COLUMN     "saldo" DECIMAL(9,2) NOT NULL DEFAULT 0.00;
