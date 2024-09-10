@@ -5,7 +5,7 @@ import { IContaRepository } from '../domain/conta/repositories/iconta.repository
 import { ResponseContaDto } from '../domain/conta/dtos/response-conta.dto';
 import { plainToInstance } from 'class-transformer';
 import { ResponseAtivacaoContaDto } from '../domain/conta/dtos/update-ativacao-conta.dto';
-import { ResponseSaldoContaDto } from "../domain/conta/dtos/response-saldo-conta.dto";
+import { ResponseSaldoContaDto } from '../domain/conta/dtos/response-saldo-conta.dto';
 
 @Injectable()
 export class ContaService {
@@ -13,6 +13,10 @@ export class ContaService {
     @Inject(IContaRepository) private contaRepository: IContaRepository,
   ) {}
   async createConta(payload: CreateContaDto): Promise<Conta> {
+    const conta = await this.contaRepository.findOneByEmail(payload.email);
+    if (conta) {
+      throw new BadRequestException('O email informado já possui uma conta');
+    }
     return await this.contaRepository.create(payload);
   }
 
@@ -29,7 +33,6 @@ export class ContaService {
     if (isNaN(idToNumber)) {
       throw new BadRequestException('Id recebido deve ser um número');
     }
-
     const conta = await this.contaRepository.findOne(idToNumber);
 
     if (!conta) {

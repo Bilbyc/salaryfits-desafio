@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 import { StatusTransacao, TipoOperacao } from '../transacao';
 
 export class CreateTransferenciaDto {
@@ -8,8 +8,10 @@ export class CreateTransferenciaDto {
   @IsNotEmpty()
   @IsNumber()
   readonly valor: number;
+  @IsOptional()
   @IsEnum(TipoOperacao)
-  tipoOperacao;
+  tipoOperacao?;
+  @IsOptional()
   @IsEnum(StatusTransacao)
-  status;
+  status?;
 }
