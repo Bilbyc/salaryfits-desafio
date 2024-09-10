@@ -5,7 +5,7 @@ model Transacao {
   destinatario_id Int?
   valor Decimal @db.Decimal(9,2)
   tipoOperacao TipoOperacao
-  dataTransacao DateTime @default(now())
+  dataTransacao DateTime @default(now()) @db.Date
   status StatusTransacao
   historicoTransacao HistoricoTransacao?
 }

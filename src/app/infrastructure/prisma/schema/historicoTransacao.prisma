@@ -1,6 +1,6 @@
 model HistoricoTransacao {
   id Int @id @default(autoincrement())
-  dataTransacao DateTime
+  dataTransacao DateTime @db.Date
   contaId Int
   conta Conta @relation(fields: [contaId], references: [id])
   transacaoId Int @unique
