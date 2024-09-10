@@ -1,38 +1,19 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+## Installation
 
 ```bash
-$ npm install
-```
+# Clone this project
 
-## Compile and run the project
+# Access project root folder
+$ cd salaryfits-desafio-main
+
+# Install dependencies
+$ npm install
+
+# Run docker
+$ docker compose up
+
+```
+## Running the app
 
 ```bash
 # development
@@ -40,46 +21,101 @@ $ npm run start
 
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Run tests
+## Observações
 
 ```bash
-# unit tests
-$ npm run test
+# Autenticação
+$ Token de Autenticação tem uma duração de 5 minutos
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Rate Limit
+$ Rotas de operações de Transação (Saque, Depósito e Transferencia) possuem um limite de 5 requisições por minuto
 ```
+📌 Endpoints
+============
+### Conta Endpoint
+|       Route                       |    Method    |                   Description                       |                                                          
+|   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/api/conta/criar`               |     POST     | Cria uma nova CONTA                               | 
+```
+$ Body
+{
+  "nome": "",
+  "email": "",
+  "senha": "",
+  "papel": "ADMIN" (ADMIN/USUARIO)
+}
+```
+### Conta Endpoints
+|       Route                       |    Method    |                   Description                       |                                                          
+|   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/api/conta/lista`               |     GET     | Lista todas as contas - **Rota de ADMIN**            | 
+|  `/api/conta/atualizaAtivacao/:id` |     PATCH     | Ativa ou desativa a conta com o ID passado - **Rota de ADMIN**            | 
+```
+```
+### Autenticação Endpoint
+|       Route                       |    Method    |                   Description                       |                                                          
+|   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/auth/login`                    |     POST     |  Loga em uma conta e recebe um **Bearer Token**                               | 
+```
+$ Body
+{
+  "email": "teste@email.com",
+  "senha": "123",
+}
+```
+### Transação Endpoint
+|       Route                       |    Method    |                   Description                       |                                                          
+|   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/api/transacao/depositar`               |     POST     | Deposita o valor na conta logada            | 
+```
+$ Body
+{
+  "valor": 10.50,
+}
+```
+### Transação Endpoint
+|       Route                       |    Method    |                   Description                       |                                                          
+|   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/api/transacao/sacar`               |     POST     | Saca o valor da conta logada            | 
+```
+$ Body
+{
+  "valor": 5.50,
+}
+```
+### Transação Endpoint
+|       Route                       |    Method    |                   Description                       |                                                          
+|   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/api/transacao/transferir`               |     POST     | Realiza uma transferencia para a conta destino           | 
+```
+$ Body
+{
+    "destinatario_id": 1,
+    "valor": 5.00
+}
+```
+### Transação Endpoint
+|       Route                       |    Method    |                   Description                       |                                                          
+|   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/api/transacao/listTransacoes`      |     GET     | Lista transações com filtros - **ROTA DE ADMIN**           | 
 
-## Resources
+$ Exemplo filtros via URL
 
-Check out a few resources that may come in handy when working with NestJS:
+**URL** = *localhost:3001/api/transacao/listTransacoes?dataInicial=2024-09-10&dataFinal=2024-09-10&tipoOperacao=DEPOSITO*
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+**dataInicial** e **dataFinal**: estabelecem o período das Transações a serem retornadas
 
-## Support
+**tipoOperacao**: filtra o tipo de Transação a ser retornada. Valores possíveis: *DEPOSITO*,*TRANSFERENCIA*,*SAQUE*
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Transação Endpoint
+|       Route                       |    Method    |                   Description                       |                                                          
+|   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/api/transacao/listTransacoes`      |     GET     | Lista transações com filtros            | 
 
-## Stay in touch
+$ Exemplo filtros via URL
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**URL** = localhost:3001/api/transacao/listTransacoes?dataInicial=2024-09-09&dataFinal=2024-09-09
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**dataInicial** e **dataFinal**: estabelecem o período das Transações a serem retornadas
