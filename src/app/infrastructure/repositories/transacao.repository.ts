@@ -2,22 +2,22 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ITransacaoRepository } from '../../domain/transacao/repositories/itransacao.repository';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTransferenciaDto } from '../../domain/transacao/dtos/create-transferencia.dto';
-import { TipoOperacao, Transacao } from "../../domain/transacao/transacao";
-import { plainToClass } from 'class-transformer';
+import { TipoOperacao, Transacao } from '../../domain/transacao/transacao';
+import { plainToClass, plainToInstance } from 'class-transformer';
 import { Conta } from '../../domain/conta/conta';
 import { IContaRepository } from '../../domain/conta/repositories/iconta.repository';
 import { CreateTransacaoDto } from '../../domain/transacao/dtos/create-transacao.dto';
-import {
-  IHistoricoTransacaoRepository
-} from "../../domain/historicoTransacao/repositories/ihistorico-transacao.repository";
-import { CreateHistoricoTransacaoDto } from "../../domain/historicoTransacao/dtos/create-historico-transacao.dto";
+import { IHistoricoTransacaoRepository } from '../../domain/historicoTransacao/repositories/ihistorico-transacao.repository';
+import { CreateHistoricoTransacaoDto } from '../../domain/historicoTransacao/dtos/create-historico-transacao.dto';
+import { RelatorioFiltroDto } from '../../domain/transacao/dtos/relatorio-filtro.dto';
 
 @Injectable()
 export class TransacaoRepository implements ITransacaoRepository {
   constructor(
     private prisma: PrismaService,
     @Inject(IContaRepository) private contaRepository: IContaRepository,
-    @Inject(IHistoricoTransacaoRepository) private historicoTransacaoRepository,
+    @Inject(IHistoricoTransacaoRepository)
+    private historicoTransacaoRepository: IHistoricoTransacaoRepository,
   ) {}
 
   async transferir(
@@ -62,5 +62,22 @@ export class TransacaoRepository implements ITransacaoRepository {
     };
 
     return plainToClass(Transacao, transacaoComSaldoConvertido);
+  }
+
+  async list(data: RelatorioFiltroDto): Promise<Transacao[]> {
+    const transacoes = await this.prisma.transacao.findMany({
+      where: {
+        ...(data.dataInicial ? { dataTransacao: { gte: new Date(data.dataInicial) } } : {}),
+        ...(data.dataFinal ? { dataTransacao: { lte: new Date(data.dataFinal) } } : {}),
+        ...(data.tipoOperacao ? { tipoOperacao: data.tipoOperacao } : {}),
+      },
+    });
+
+    return transacoes.map((transacao) =>
+      plainToInstance(Transacao, {
+        ...transacao,
+        valor: transacao.valor.toNumber(),
+      }),
+    );
   }
 }

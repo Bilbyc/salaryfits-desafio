@@ -16,11 +16,10 @@ import { Conta } from '../domain/conta/conta';
 import { CreateTransacaoDto } from '../domain/transacao/dtos/create-transacao.dto';
 import { CreateMovimentacaoDto } from '../domain/transacao/dtos/create-movimentacao.dto';
 import { ResponseContaDto } from '../domain/conta/dtos/response-conta.dto';
-import { plainToInstance } from "class-transformer";
-import {
-  IHistoricoTransacaoRepository
-} from "../domain/historicoTransacao/repositories/ihistorico-transacao.repository";
-import { CreateHistoricoTransacaoDto } from "../domain/historicoTransacao/dtos/create-historico-transacao.dto";
+import { plainToInstance } from 'class-transformer';
+import { IHistoricoTransacaoRepository } from '../domain/historicoTransacao/repositories/ihistorico-transacao.repository';
+import { CreateHistoricoTransacaoDto } from '../domain/historicoTransacao/dtos/create-historico-transacao.dto';
+import { RelatorioFiltroDto } from '../domain/transacao/dtos/relatorio-filtro.dto';
 
 @Injectable()
 export class TransacaoService {
@@ -114,5 +113,11 @@ export class TransacaoService {
     contaOrigem = await this.contaRepository.findOneByEmail(contaEmail);
 
     return plainToInstance(ResponseContaDto, contaOrigem);
+  }
+
+  async listaTransacoes(params: RelatorioFiltroDto): Promise<any> {
+    //const data = new RelatorioFiltroDto(dataInicial, dataFinal, tipoOperacao);
+
+    return this.transacaoRepository.list(params);
   }
 }

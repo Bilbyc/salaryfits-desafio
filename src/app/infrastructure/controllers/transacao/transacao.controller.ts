@@ -1,8 +1,11 @@
-import { Body, Controller, HttpStatus, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Req, Res } from "@nestjs/common";
 import { TransacaoService } from '../../../services/transacao.service';
 import { Request, Response } from 'express';
 import { CreateTransferenciaDto } from '../../../domain/transacao/dtos/create-transferencia.dto';
 import { CreateMovimentacaoDto } from '../../../domain/transacao/dtos/create-movimentacao.dto';
+import { RelatorioFiltroDto } from '../../../domain/transacao/dtos/relatorio-filtro.dto';
+import { Roles } from '../../adapters/authorization/role.decorator';
+import { Role } from '../../../domain/conta/conta';
 
 @Controller('api/transacao')
 export class TransacaoController {
@@ -43,5 +46,21 @@ export class TransacaoController {
     const conta = await this.transacaoService.sacarValor(valor, contaEmail);
 
     res.status(HttpStatus.OK).send(conta);
+  }
+
+  @Roles(Role.Admin)
+  @Get('/listaTransacoes')
+  async listaTransacoes(
+    @Res() res: Response,
+    @Query() params?: RelatorioFiltroDto,
+  ): Promise<void> {
+    try {
+      const result = await this.transacaoService.listaTransacoes(params);
+
+      res.status(HttpStatus.OK).send(result);
+    } catch (error) {
+      console.error('Erro duranta listagem de Transações: ', error.message);
+      throw new HttpException(error.message, error.status).message;
+    }
   }
 }
