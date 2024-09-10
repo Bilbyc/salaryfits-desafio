@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { StatusTransacao, TipoOperacao } from '../transacao';
 
 export class CreateTransacaoDto {
@@ -12,4 +12,6 @@ export class CreateTransacaoDto {
   tipoOperacao;
   @IsEnum(StatusTransacao)
   status;
+  @IsOptional()
+  destinatario_id?: number;
 }

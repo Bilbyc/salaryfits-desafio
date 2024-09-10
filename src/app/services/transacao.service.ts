@@ -100,7 +100,16 @@ export class TransacaoService {
       status: StatusTransacao.aceita,
     };
 
-    await this.transacaoRepository.create(data);
+    const transacao = await this.transacaoRepository.create(data);
+
+    const dataHistorico: CreateHistoricoTransacaoDto = {
+      contaId: contaOrigem.id,
+      transacaoId: transacao.id,
+      tipoOperacao: TipoOperacao.saque,
+      dataTransacao: new Date(),
+    };
+
+    await this.historicoTransacaoRepository.create(dataHistorico);
 
     contaOrigem = await this.contaRepository.findOneByEmail(contaEmail);
 
