@@ -21,7 +21,7 @@ export class AuthService {
       throw new BadRequestException('Conta não encontrada');
     }
     if (conta.senha !== payload.senha) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Credenciais incorretas');
     }
     if (!conta.ativada) {
       throw new BadRequestException('Conta desativada - Não é possível logar');

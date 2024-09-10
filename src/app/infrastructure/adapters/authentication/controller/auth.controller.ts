@@ -1,4 +1,11 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
 import { LoginDto } from '../../../../domain/conta/dtos/login.dto';
 import { Response } from 'express';
@@ -13,7 +20,12 @@ export class AuthController {
   @Public()
   @Post('/login')
   async login(@Body() loginDto: LoginDto, @Res() res: Response): Promise<void> {
-    const result = await this.authService.logar(loginDto);
-    res.status(HttpStatus.OK).send(result);
+    try {
+      const result = await this.authService.logar(loginDto);
+      res.status(HttpStatus.OK).send(result);
+    } catch (error) {
+      console.error('Erro durante tentativa de login: ', error.message);
+      throw new HttpException(error.message, error.status).message;
+    }
   }
 }
