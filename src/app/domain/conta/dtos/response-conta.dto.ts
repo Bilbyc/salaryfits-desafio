@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -26,4 +27,6 @@ export class ResponseContaDto {
   readonly papel: Role;
   @Exclude()
   readonly senha: string;
+  @IsBoolean()
+  readonly ativada: boolean;
 }

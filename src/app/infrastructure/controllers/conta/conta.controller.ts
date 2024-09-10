@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { CreateContaDto } from '../../../domain/conta/dtos/create-conta.dto';
 import { Response } from 'express';
 import { ContaService } from '../../../services/conta.service';
@@ -22,5 +31,20 @@ export class ContaController {
   async listarContas(@Res() res: Response): Promise<void> {
     const listaContas = await this.contaService.listaContas();
     res.status(HttpStatus.OK).send(listaContas);
+  }
+
+  @Roles(Role.Admin)
+  @Patch('/atualizaAtivacao/:id')
+  async updateAtivacaoConta(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    const result = await this.contaService.updateAtivacaoConta(id);
+
+    res
+      .status(HttpStatus.OK)
+      .send(
+        `Conta - ID: ${result.id} atualizada para status: Ativada = ${result.ativada}`,
+      );
   }
 }

@@ -5,6 +5,7 @@ import { Conta } from '../../domain/conta/conta';
 import { PrismaService } from '../prisma/prisma.service';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { Prisma } from '@prisma/client';
+import { ResponseAtivacaoContaDto } from '../../domain/conta/dtos/update-ativacao-conta.dto';
 
 @Injectable()
 export class ContaRepository implements IContaRepository {
@@ -109,5 +110,24 @@ export class ContaRepository implements IContaRepository {
     return contasAtivas.map((conta) =>
       plainToInstance(Conta, { ...conta, saldo: conta.saldo.toNumber() }),
     );
+  }
+
+  async updateAtivacaoConta(
+    id: number,
+    statusAtual: boolean,
+  ): Promise<ResponseAtivacaoContaDto> {
+    await this.prisma.conta.update({
+      where: {
+        id: id,
+      },
+      data: {
+        ativada: !statusAtual,
+      },
+    });
+
+    return {
+      id: id,
+      ativada: !statusAtual,
+    };
   }
 }

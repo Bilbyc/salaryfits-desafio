@@ -5,6 +5,7 @@ export class Conta {
   senha: string;
   saldo: number;
   papel: Role;
+  ativada: boolean;
 }
 
 export enum Role {
