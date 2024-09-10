@@ -1,4 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ITransacaoRepository } from '../domain/transacao/repositories/itransacao.repository';
 import { CreateTransferenciaDto } from '../domain/transacao/dtos/create-transferencia.dto';
 import {
@@ -23,7 +28,17 @@ export class TransacaoService {
   ): Promise<Transacao> {
     payload.tipoOperacao = TipoOperacao.transferencia;
     payload.status = StatusTransacao.aceita;
-    const conta: Conta = await this.contaRepository.findOne(email);
-    return await this.transacaoRepository.transferir(payload, conta);
+    const contaOrigem: Conta = await this.contaRepository.findOneByEmail(email);
+    const contaDestinatario = await this.contaRepository.findOne(
+      payload.destinatario_id,
+    );
+    if (!contaDestinatario) {
+      throw new NotFoundException('Conta de destinatário não existe');
+    }
+
+    if (contaOrigem.saldo - payload.valor < 0) {
+      throw new BadRequestException('Sem saldo suficiente');
+    }
+    return await this.transacaoRepository.transferir(payload, contaOrigem);
   }
 }

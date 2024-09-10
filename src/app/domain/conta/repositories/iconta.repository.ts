@@ -3,7 +3,11 @@ import { Conta } from '../conta';
 
 export interface IContaRepository {
   create(payload: CreateContaDto): Promise<Conta>;
-  findOne(email: string): Promise<Conta>;
+  findOneByEmail(email: string): Promise<Conta>;
+  findOne(id: number): Promise<Conta>;
+  depositarById(id: number, valor: number): Promise<boolean>;
+  sacarById(id: number, valor: number): Promise<boolean>;
+  sacarByEmail(email: string, valor: number): Promise<boolean>;
 }
 
 export const IContaRepository = Symbol('IContaRepository');

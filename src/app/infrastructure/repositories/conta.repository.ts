@@ -18,14 +18,72 @@ export class ContaRepository implements IContaRepository {
     return plainToClass(Conta, contaTransformada);
   }
 
-  async findOne(email: string): Promise<Conta> {
+  async findOneByEmail(email: string): Promise<Conta> {
     const conta = await this.prisma.conta.findUnique({
       where: { email: email },
     });
-    const contaTransformada = {
-      ...conta,
-      saldo: conta.saldo.toNumber(),
-    };
-    return plainToClass(Conta, contaTransformada);
+    if (conta) {
+      const contaTransformada = {
+        ...conta,
+        saldo: conta.saldo.toNumber(),
+      };
+      return plainToClass(Conta, contaTransformada);
+    }
+    return plainToClass(Conta, conta);
+  }
+  async findOne(id: number): Promise<Conta> {
+    const conta = await this.prisma.conta.findUnique({
+      where: { id: id },
+    });
+    if (conta) {
+      const contaTransformada = {
+        ...conta,
+        saldo: conta.saldo.toNumber(),
+      };
+      return plainToClass(Conta, contaTransformada);
+    }
+    return plainToClass(Conta, conta);
+  }
+  async depositarById(id: number, valor: number): Promise<boolean> {
+    await this.prisma.conta.update({
+      where: {
+        id: id,
+      },
+      data: {
+        saldo: {
+          increment: valor,
+        },
+      },
+    });
+    return true;
+  }
+  async sacarByEmail(email: string, valor: number): Promise<boolean> {
+    await this.prisma.conta.update({
+      where: {
+        email: email,
+      },
+      data: {
+        saldo: {
+          decrement: valor,
+        },
+      },
+    });
+
+    return true;
+  }
+
+  async sacarById(id: number, valor: number): Promise<boolean> {
+    await this.prisma.conta.update({
+      where: {
+        id: id,
+      },
+      data: {
+        saldo: {
+          decrement: valor,
+        },
+      },
+    });
+
+    return true;
   }
 }
