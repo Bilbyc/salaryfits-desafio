@@ -7,12 +7,7 @@ model Transacao {
   tipoOperacao TipoOperacao
   dataTransacao DateTime @default(now())
   status StatusTransacao
-}
-
-enum TipoOperacao {
-  DEPOSITO
-  SAQUE
-  TRANSFERENCIA
+  historicoTransacao HistoricoTransacao?
 }
 
 enum StatusTransacao {

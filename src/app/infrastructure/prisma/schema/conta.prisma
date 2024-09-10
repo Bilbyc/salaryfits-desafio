@@ -9,6 +9,7 @@ model Conta {
   papel Role
   ativada Boolean @default(true)
   transacoes Transacao[]
+  historicoTransacao HistoricoTransacao[]
 }
 
 enum Role {

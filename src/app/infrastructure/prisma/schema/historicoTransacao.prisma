@@ -1,0 +1,9 @@
+model HistoricoTransacao {
+  id Int @id @default(autoincrement())
+  dataTransacao DateTime
+  contaId Int
+  conta Conta @relation(fields: [contaId], references: [id])
+  transacaoId Int @unique
+  transacao Transacao @relation(fields: [transacaoId], references: [id])
+  tipoOperacao TipoOperacao
+}
