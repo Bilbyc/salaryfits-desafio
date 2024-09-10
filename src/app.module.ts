@@ -10,7 +10,7 @@ import { ConfigModule } from '@nestjs/config';
     ControllersModule,
     ThrottlerModule.forRoot([
       {
-        ttl: 45,
+        ttl: 60,
         limit: 5,
       },
     ]),
