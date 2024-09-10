@@ -15,7 +15,6 @@ export class TransacaoController {
     @Res() res: Response,
     @Req() req: Request,
   ): Promise<void> {
-    console.log(req['conta']);
     const contaEmail: string = req['conta'].email;
     const transacao = await this.transacaoService.createTransferencia(
       transferenciaDto,

@@ -1,4 +1,4 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { LoginDto } from '../../../../domain/conta/dtos/login.dto';
 import { IContaRepository } from '../../../../domain/conta/repositories/iconta.repository';
 import { JwtService } from '@nestjs/jwt';
@@ -11,10 +11,9 @@ export class AuthService {
   ) {}
 
   async logar(payload: LoginDto): Promise<any> {
-    const conta = await this.contaRepository.findOne(payload.email);
+    const conta = await this.contaRepository.findOneByEmail(payload.email);
     if (!conta) {
-      console.info('Usuário não encontrado');
-      return;
+      throw new BadRequestException('Conta não encontrada');
     }
     if (conta.senha !== payload.senha) {
       throw new UnauthorizedException();
