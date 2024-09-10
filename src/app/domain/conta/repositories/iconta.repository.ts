@@ -6,6 +6,7 @@ export interface IContaRepository {
   findOneByEmail(email: string): Promise<Conta>;
   findOne(id: number): Promise<Conta>;
   depositarById(id: number, valor: number): Promise<boolean>;
+  depositarByEmail(email: string, valor: number): Promise<boolean>;
   sacarById(id: number, valor: number): Promise<boolean>;
   sacarByEmail(email: string, valor: number): Promise<boolean>;
 }

@@ -4,6 +4,7 @@ import { CreateContaDto } from '../../domain/conta/dtos/create-conta.dto';
 import { Conta } from '../../domain/conta/conta';
 import { PrismaService } from '../prisma/prisma.service';
 import { plainToClass } from 'class-transformer';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ContaRepository implements IContaRepository {
@@ -57,6 +58,21 @@ export class ContaRepository implements IContaRepository {
     });
     return true;
   }
+
+  async depositarByEmail(email: string, valor: number): Promise<boolean> {
+    await this.prisma.conta.update({
+      where: {
+        email: email,
+      },
+      data: {
+        saldo: {
+          increment: new Prisma.Decimal(valor),
+        },
+      },
+    });
+    return true;
+  }
+
   async sacarByEmail(email: string, valor: number): Promise<boolean> {
     await this.prisma.conta.update({
       where: {

@@ -6,6 +6,7 @@ import { Transacao } from '../../domain/transacao/transacao';
 import { plainToClass } from 'class-transformer';
 import { Conta } from '../../domain/conta/conta';
 import { IContaRepository } from '../../domain/conta/repositories/iconta.repository';
+import { CreateTransacaoDto } from '../../domain/transacao/dtos/create-transacao.dto';
 
 @Injectable()
 export class TransacaoRepository implements ITransacaoRepository {
@@ -32,5 +33,11 @@ export class TransacaoRepository implements ITransacaoRepository {
     );
 
     return plainToClass(Transacao, transacaoComSaldoConvertido);
+  }
+
+  async create(data: CreateTransacaoDto): Promise<boolean> {
+    await this.prisma.transacao.create({ data });
+
+    return true;
   }
 }
