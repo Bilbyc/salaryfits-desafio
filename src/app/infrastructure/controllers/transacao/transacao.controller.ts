@@ -16,8 +16,11 @@ export class TransacaoController {
     @Req() req: Request,
   ): Promise<void> {
     console.log(req['conta']);
-    const transacao =
-      await this.transacaoService.createTransferencia(transferenciaDto);
+    const contaEmail: string = req['conta'].email;
+    const transacao = await this.transacaoService.createTransferencia(
+      transferenciaDto,
+      contaEmail,
+    );
     res.status(HttpStatus.OK).send(transacao);
   }
 }

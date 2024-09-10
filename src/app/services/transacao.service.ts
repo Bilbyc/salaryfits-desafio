@@ -6,18 +6,24 @@ import {
   TipoOperacao,
   Transacao,
 } from '../domain/transacao/transacao';
+import { IContaRepository } from '../domain/conta/repositories/iconta.repository';
+import { Conta } from '../domain/conta/conta';
 
 @Injectable()
 export class TransacaoService {
   constructor(
     @Inject(ITransacaoRepository)
     private transacaoRepository: ITransacaoRepository,
+    @Inject(IContaRepository)
+    private contaRepository: IContaRepository,
   ) {}
   async createTransferencia(
     payload: CreateTransferenciaDto,
+    email: string,
   ): Promise<Transacao> {
     payload.tipoOperacao = TipoOperacao.transferencia;
     payload.status = StatusTransacao.aceita;
-    return await this.transacaoRepository.transferir(payload);
+    const conta: Conta = await this.contaRepository.findOne(email);
+    return await this.transacaoRepository.transferir(payload, conta);
   }
 }

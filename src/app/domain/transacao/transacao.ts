@@ -1,5 +1,8 @@
+import { Conta } from '../conta/conta';
+
 export class Transacao {
   id: number;
+  contaId: Conta;
   valor: number;
   destinatario_id: number;
   tipoOperacao: TipoOperacao;
