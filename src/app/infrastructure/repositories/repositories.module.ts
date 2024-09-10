@@ -4,6 +4,8 @@ import { IContaRepository } from '../../domain/conta/repositories/iconta.reposit
 import { ContaRepository } from './conta.repository';
 import { ITransacaoRepository } from '../../domain/transacao/repositories/itransacao.repository';
 import { TransacaoRepository } from './transacao.repository';
+import { IHistoricoTransacaoRepository } from '../../domain/historicoTransacao/repositories/ihistorico-transacao.repository';
+import { HistoricoTransacaoRepository } from './historico-transacao.repository';
 
 @Module({
   providers: [
@@ -16,7 +18,15 @@ import { TransacaoRepository } from './transacao.repository';
       provide: ITransacaoRepository,
       useClass: TransacaoRepository,
     },
+    {
+      provide: IHistoricoTransacaoRepository,
+      useClass: HistoricoTransacaoRepository,
+    },
   ],
-  exports: [IContaRepository, ITransacaoRepository],
+  exports: [
+    IContaRepository,
+    ITransacaoRepository,
+    IHistoricoTransacaoRepository,
+  ],
 })
 export class RepositoriesModule {}
