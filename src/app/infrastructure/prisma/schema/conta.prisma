@@ -7,6 +7,8 @@ model Conta {
   senha String
   saldo Decimal @db.Decimal(9,2) @default(0.00)
   papel Role
+  ativada Boolean @default(true)
+  transacoes Transacao[]
 }
 
 enum Role {
