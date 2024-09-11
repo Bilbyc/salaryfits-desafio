@@ -72,6 +72,7 @@ $ Body
 ### Conta Endpoints
 |       Route                       |    Method    |                   Description                       |                                                          
 |   ---------------                 | :----------: |  -------------------------------------------------- |  
+|  `/api/conta/checaSaldo:id`               |     GET     | Checa o saldo da conta informada - **Rota de ADMIN**            | 
 |  `/api/conta/lista`               |     GET     | Lista todas as contas - **Rota de ADMIN**            | 
 |  `/api/conta/atualizaAtivacao/:id` |     PATCH     | Ativa ou desativa a conta com o ID passado - **Rota de ADMIN**            | 
 ```
